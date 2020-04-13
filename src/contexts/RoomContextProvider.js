@@ -82,6 +82,7 @@ const RoomContextProvider = (props) => {
 				return setMinSize(value);
 			}
 			case "maxSize": {
+				console.log("alo")
 				if (value > Math.max(...rooms.map((room) => room.size))) {
 					console.log("hello");
 					return setMaxSize(Math.max(...rooms.map((room) => room.size)));
@@ -105,7 +106,7 @@ const RoomContextProvider = (props) => {
 		let tempPrice = price;
 		let tempSize = size;
 		let tempMinSize = minSize;
-		let tempMaxSize = maxPrice;
+		let tempMaxSize = maxSize;
 		let tempBreakfast = breakfast;
 		let tempPets = pets;
 
@@ -128,8 +129,11 @@ const RoomContextProvider = (props) => {
 			tempRooms = tempRooms.filter((room) => room.price < tempPrice);
 		}
 
+		console.log(tempMinSize)
+		console.log(tempMaxSize)
 		// filter by size
-		if (tempSize != 0) {
+		if (tempMinSize >= 0  && tempMaxSize !== Math.max(...rooms.map((room) => room.size))) {
+			console.log(tempMaxSize)
 			tempRooms = tempRooms.filter((room) => room.size >= tempMinSize && room.size <= tempMaxSize);
 		}
 
@@ -152,7 +156,7 @@ const RoomContextProvider = (props) => {
 
 	useEffect(() => {
 		if (rooms.length !== 0) filterRooms();
-	}, [type, capacity, price, minSize, maxPrice, breakfast, pets]);
+	}, [type, capacity, price, minSize, maxSize, maxPrice, breakfast, pets]);
 
 	return (
 		<RoomContext.Provider
